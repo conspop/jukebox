@@ -1,10 +1,15 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
+import { createUser } from "~/models/users.server";
 
 import { spotifyStrategy } from "~/services/auth.server";
 
 export async function loader({ request }: LoaderArgs) {
-  return spotifyStrategy.getSession(request);
+  const session = await spotifyStrategy.getSession(request);
+  if (session?.user) {
+    const user = await createUser(session.user.id);
+  }
+  return session;
 }
 
 export default function Index() {
@@ -22,6 +27,7 @@ export default function Index() {
       ) : (
         <p>You are not logged in yet!</p>
       )}
+      <div>{JSON.stringify(user)}</div>
       <Form action={user ? "/logout" : "/auth/spotify"} method="post">
         <button>{user ? "Logout" : "Log in with Spotify"}</button>
       </Form>
