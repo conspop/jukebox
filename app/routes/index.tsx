@@ -1,14 +1,11 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
-import { createUser } from "~/models/users.server";
 
 import { spotifyStrategy } from "~/services/auth.server";
 
 export async function loader({ request }: LoaderArgs) {
   const session = await spotifyStrategy.getSession(request);
-  if (session?.user) {
-    const user = await createUser(session.user.id);
-  }
+
   return session;
 }
 

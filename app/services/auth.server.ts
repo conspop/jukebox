@@ -2,6 +2,7 @@ import { Authenticator } from "remix-auth";
 import { SpotifyStrategy } from "remix-auth-spotify";
 
 import { sessionStorage } from "~/services/session.server";
+import { getOrCreateUser } from "~/models/users.server";
 
 if (!process.env.SPOTIFY_CLIENT_ID) {
   throw new Error("Missing SPOTIFY_CLIENT_ID env");
@@ -26,18 +27,22 @@ export const spotifyStrategy = new SpotifyStrategy(
     sessionStorage,
     scope: scopes,
   },
-  async ({ accessToken, refreshToken, extraParams, profile }) => ({
-    accessToken,
-    refreshToken,
-    expiresAt: Date.now() + extraParams.expiresIn * 1000,
-    tokenType: extraParams.tokenType,
-    user: {
-      id: profile.id,
-      email: profile.emails[0].value,
-      name: profile.displayName,
-      image: profile.__json.images?.[0]?.url,
-    },
-  })
+  async ({ accessToken, refreshToken, extraParams, profile }) => {
+    console.log("running");
+    return {
+      accessToken,
+      refreshToken,
+      expiresAt: Date.now() + extraParams.expiresIn * 1000,
+      tokenType: extraParams.tokenType,
+      user: {
+        id: profile.id,
+        email: profile.emails[0].value,
+        name: profile.displayName,
+        image: profile.__json.images?.[0]?.url,
+        // user: await getOrCreateUser(profile.id),
+      },
+    };
+  }
 );
 
 export const authenticator = new Authenticator(sessionStorage, {
