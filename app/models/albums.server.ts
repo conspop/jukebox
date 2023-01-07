@@ -1,6 +1,15 @@
 import { supabase } from "supabase/supabase";
+import type { Item } from "~/types/spotifyAlbum";
 
-export async function getAlbums(userId: string) {
+export async function getAlbums(userId: string): Promise<
+  | {
+      albumId: string;
+      artist: string;
+      album: string;
+      imageUrl: string;
+    }[]
+  | null
+> {
   const { data, error } = await supabase
     .from("albums")
     .select()

@@ -83,36 +83,69 @@ export default function AddAlbum() {
         </Link>
       </div>
       {albums && (
-        <ul className="flex gap-2 flex-wrap p-2 justify-center">
+        <ul className="grid grid-cols-3 gap-4 justify-center">
           {albums.map((album) => (
-            <li key={album.id}>
+            <li
+              key={album.id}
+              className={
+                "relative" +
+                (album.added ? " cursor-default" : " cursor-pointer")
+              }
+              onClick={() => {
+                const data = new FormData();
+                data.append("albumId", album.id);
+                data.append("artist", album.name);
+                data.append("album", album.artists[0].name);
+                data.append("imageUrl", album.images[0].url);
+
+                addAlbum.submit(data, {
+                  method: "post",
+                  action: `/add?query=${queryString}`,
+                });
+              }}
+            >
               <button
                 type="button"
                 className={
-                  "w-52 h-52" +
-                  (album.added ? " opacity-100" : " opacity-25") +
-                  (addAlbum.submission?.formData.get("albumId") === album.id
-                    ? " opacity-60"
-                    : "")
+                  "w-full h-full" +
+                  (album.added ? " opacity-100" : " opacity-25")
                 }
                 disabled={
-                  addAlbum.submission?.formData.get("albumId") === album.id
+                  addAlbum.submission?.formData.get("albumId") === album.id ||
+                  album.added
                 }
-                onClick={() => {
-                  const data = new FormData();
-                  data.append("albumId", album.id);
-                  data.append("artist", album.name);
-                  data.append("album", album.artists[0].name);
-                  data.append("imageUrl", album.images[0].url);
-
-                  addAlbum.submit(data, {
-                    method: "post",
-                    action: `/add?query=${queryString}`,
-                  });
-                }}
               >
-                <img src={album.images[0].url} alt={album.name} />
+                <img
+                  className="block"
+                  src={album.images[0].url}
+                  alt={album.name}
+                />
               </button>
+              {!album.added && (
+                <div
+                  className={
+                    "w-full h-full absolute flex justify-center items-center top-0 left-0" +
+                    (addAlbum.submission?.formData.get("albumId") === album.id
+                      ? " animate-spin"
+                      : "")
+                  }
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-1/5 h-1/5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+              )}
             </li>
           ))}
         </ul>

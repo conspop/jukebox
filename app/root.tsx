@@ -3,6 +3,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -27,6 +28,23 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <nav>
+          <ul className="grid grid-cols-2 border-b-2">
+            <li className="flex">
+              <NavLink
+                className={"w-full h-full p-8 text-center"}
+                to="/library"
+              >
+                Library
+              </NavLink>
+            </li>
+            <li className="flex">
+              <NavLink className="w-full h-full p-8 text-center" to="/add">
+                Add
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
