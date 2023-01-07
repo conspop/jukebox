@@ -10,7 +10,7 @@ if (!secret) {
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "_session", // use any name you want here
+    name: "_session",
     sameSite: "lax",
     path: "/",
     httpOnly: true,
