@@ -74,24 +74,93 @@ export default function AddAlbum() {
   const [query, setQuery] = useState(queryString);
   const addAlbum = useFetcher();
 
+  if (albums.length === 0) {
+    return (
+      <div className="max-w-5xl mx-auto grid grid-cols-3">
+        <div className="flex justify-start items-center p-8 pb-14">
+          <Link to="/library">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 stroke-slate-300"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
+            </svg>
+          </Link>
+        </div>
+        <div className="grow flex justify-center gap-4 p-8 pb-14">
+          <div className="flex gap-2 items-center ">
+            <input
+              type="text"
+              className="p-4 text-slate-300 rounded-full border border-slate-300 bg-slate-600 text-center"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          <Link
+            to={`/add?query=${query}`}
+            className="p-2 flex justify-center items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 stroke-slate-300"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="flex justify-center gap-4 p-4">
+      <div className="flex justify-center gap-4 p-8 pb-14">
         <div className="flex gap-2 items-center">
-          <label>Query</label>
           <input
             type="text"
-            className="p-2 rounded border"
+            className="p-4 text-slate-300 rounded-full border border-slate-300 bg-slate-600"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <Link to={`/add?query=${query}`} className="bg-blue-300 rounded p-2">
-          Find Albums
+        <Link
+          to={`/add?query=${query}`}
+          className="p-2 flex justify-center items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 stroke-slate-300"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
         </Link>
       </div>
       {albums && (
-        <ul className="grid grid-cols-3 gap-4 justify-center">
+        <ul className="grid grid-cols-4 gap-4 justify-center">
           {albums.map((album) => (
             <li
               key={album.id}

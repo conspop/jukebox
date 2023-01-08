@@ -80,10 +80,31 @@ export default function Library() {
   const addAlbumToQueue = useFetcher();
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <ul className="grid grid-cols-3 gap-4 justify-center">
+    <div className="max-w-5xl mx-auto flex flex-col">
+      <div className="flex justify-end items-center p-8 pb-14">
+        <Link
+          className="flex justify-center items-center font-bold text-4xl text-slate-100"
+          to="/add"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 stroke-slate-300"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+        </Link>
+      </div>
+      <ul className="grid grid-cols-4 gap-4 justify-center">
         {albums.map((album) => (
-          <li key={album.albumId}>
+          <li className="shadow shadow-slate-600" key={album.albumId}>
             <AlbumCard addAlbumToQueue={addAlbumToQueue} album={album} />
           </li>
         ))}
@@ -105,17 +126,7 @@ function AlbumCard({
 
   if (!flipped) {
     return (
-      <div
-        className="w-full h-full"
-        onClick={() => setFlipped(true)}
-        // onClick={() => {
-        //   console.log("clicked");
-        //   addAlbumToQueue.submit(
-        //     { albumId: album.albumId, albumUri: album.albumUri },
-        //     { method: "post" }
-        //   );
-        // }}
-      >
+      <div className="w-full h-full" onMouseEnter={() => setFlipped(true)}>
         <img className="block" src={album.imageUrl} alt={album.album} />
       </div>
     );
@@ -124,6 +135,7 @@ function AlbumCard({
   return (
     <div
       className="w-full h-full relative"
+      onMouseLeave={() => setFlipped(false)}
       onClick={() => {
         console.log("clicked");
         addAlbumToQueue.submit(
@@ -137,7 +149,7 @@ function AlbumCard({
         src={album.imageUrl}
         alt={album.album}
       />
-      <div className="absolute inset-0 grid grid-rows-3 grid-cols-3">
+      <div className="absolute inset-0 grid grid-rows-3 grid-cols-3 text-slate-100">
         <div className="col-span-3 flex justify-end items-start px-4">
           <button
             className="text-2xl font-bold"

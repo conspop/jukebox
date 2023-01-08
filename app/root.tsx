@@ -27,8 +27,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <nav>
+      <body className="bg-slate-800">
+        {/* <nav>
           <ul className="grid grid-cols-2 border-b-2">
             <li className="flex">
               <NavLink
@@ -44,7 +44,7 @@ export default function App() {
               </NavLink>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <Outlet />
         <ScrollRestoration />
         <Scripts />
