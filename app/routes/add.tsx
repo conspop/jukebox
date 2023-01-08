@@ -51,11 +51,19 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
 
   const albumId = formData.get("albumId") as string;
+  const albumUri = formData.get("albumUri") as string;
   const artist = formData.get("artist") as string;
   const album = formData.get("album") as string;
   const imageUrl = formData.get("imageUrl") as string;
 
-  await addAlbum(session.user?.id as string, albumId, artist, album, imageUrl);
+  await addAlbum(
+    session.user?.id as string,
+    albumId,
+    albumUri,
+    artist,
+    album,
+    imageUrl
+  );
 
   return null;
 }
@@ -94,6 +102,7 @@ export default function AddAlbum() {
               onClick={() => {
                 const data = new FormData();
                 data.append("albumId", album.id);
+                data.append("albumUri", album.uri);
                 data.append("artist", album.name);
                 data.append("album", album.artists[0].name);
                 data.append("imageUrl", album.images[0].url);

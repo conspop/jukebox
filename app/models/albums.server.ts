@@ -4,6 +4,7 @@ import type { Item } from "~/types/spotifyAlbum";
 export async function getAlbums(userId: string): Promise<
   | {
       albumId: string;
+      albumUri: string;
       artist: string;
       album: string;
       imageUrl: string;
@@ -26,6 +27,7 @@ export async function getAlbums(userId: string): Promise<
 export async function addAlbum(
   userId: string,
   albumId: string,
+  albumUri: string,
   artist: string,
   album: string,
   imageUrl: string
@@ -35,6 +37,7 @@ export async function addAlbum(
     .insert({
       userId,
       albumId,
+      albumUri,
       album,
       artist,
       imageUrl,
