@@ -181,7 +181,7 @@ export default function AddAlbum() {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-1/5 h-1/5"
+                    className="w-1/5 h-1/5 stroke-slate-300"
                   >
                     <path
                       strokeLinecap="round"

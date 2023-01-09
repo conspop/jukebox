@@ -14,7 +14,8 @@ export async function getAlbums(userId: string): Promise<
   const { data, error } = await supabase
     .from("albums")
     .select()
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .order("album", { ascending: true });
 
   if (error) {
     console.log(error);

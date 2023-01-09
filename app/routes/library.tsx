@@ -80,6 +80,24 @@ export default function Library() {
     });
   }
 
+  const groupedAlbums: {
+    [key: string]: {
+      albumId: string;
+      albumUri: string;
+      artist: string;
+      album: string;
+      imageUrl: string;
+    }[];
+  } = {};
+
+  albums.forEach((album) => {
+    if (groupedAlbums[album.album]) {
+      groupedAlbums[album.album].push(album);
+    } else {
+      groupedAlbums[album.album] = [album];
+    }
+  });
+
   return (
     <div className="max-w-5xl mx-auto flex flex-col">
       <div className="grid grid-cols-3">
@@ -133,10 +151,17 @@ export default function Library() {
           </Link>
         </div>
       </div>{" "}
-      <ul className="grid grid-cols-4 gap-4 justify-center">
-        {albums.map((album) => (
-          <li className="shadow shadow-slate-600" key={album.albumId}>
-            <AlbumCard addAlbumToQueue={addAlbumToQueue} album={album} />
+      <ul className="flex flex-col gap-8">
+        {Object.keys(groupedAlbums).map((artist) => (
+          <li key={artist}>
+            <div className="text-xl text-slate-300 pb-4">{artist}</div>
+            <ul className="grid grid-cols-4 gap-2">
+              {groupedAlbums[artist].map((album) => (
+                <li className="shadow shadow-slate-600" key={album.albumId}>
+                  <AlbumCard addAlbumToQueue={addAlbumToQueue} album={album} />
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>
