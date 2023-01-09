@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
-import { Link, Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { addAlbum, getAlbums } from "~/models/albums.server";
 import { spotifyStrategy } from "~/services/auth.server";
@@ -74,9 +74,9 @@ export default function AddAlbum() {
   const [query, setQuery] = useState(queryString);
   const addAlbum = useFetcher();
 
-  if (albums.length === 0) {
-    return (
-      <div className="max-w-5xl mx-auto grid grid-cols-3">
+  return (
+    <div className="max-w-5xl mx-auto flex flex-col">
+      <div className="grid grid-cols-3">
         <div className="flex justify-start items-center p-8 pb-14">
           <Link to="/library">
             <svg
@@ -90,7 +90,7 @@ export default function AddAlbum() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
+                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
               />
             </svg>
           </Link>
@@ -102,6 +102,7 @@ export default function AddAlbum() {
               className="p-4 text-slate-300 rounded-full border border-slate-300 bg-slate-600 text-center"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              ref={(input) => input?.focus()}
             />
           </div>
           <Link
@@ -124,40 +125,6 @@ export default function AddAlbum() {
             </svg>
           </Link>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <div className="flex justify-center gap-4 p-8 pb-14">
-        <div className="flex gap-2 items-center">
-          <input
-            type="text"
-            className="p-4 text-slate-300 rounded-full border border-slate-300 bg-slate-600"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-        <Link
-          to={`/add?query=${query}`}
-          className="p-2 flex justify-center items-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 stroke-slate-300"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </Link>
       </div>
       {albums && (
         <ul className="grid grid-cols-4 gap-4 justify-center">
